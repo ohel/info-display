@@ -1,0 +1,7 @@
+.pio
+.cache
+compile_commands.json
+src/favicon.h
+src/index_html.h
+src/network_cfg.h
+src/network_cfg.json

@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+body {
+    background-color: black;
+    color: lightgray;
+    font-family: sans-serif;
+    text-align: center;
+}
+h1 {
+    font-size: 2rem;
+    margin-top: 30px;
+}
+button {
+    font-size: 1rem;
+    height: 4rem;
+}
+textarea {
+    display: block;
+    height: 1rem;
+    overflow: hidden;
+    resize: none;
+}
+div {
+    display: inline-block;
+    vertical-align: top;
+}
+</style>
+</head>
+<body>
+
+    <h1>Info display</h1>
+    <p>If all lines are empty, device will fetch text from configured URL.</p>
+    <p>Use space to empty the display.</p>
+    <label>Text:</label>
+    <div>
+        <textarea id="line1" maxlength="16"></textarea>
+        <textarea id="line2" maxlength="16"></textarea>
+        <textarea id="line3" maxlength="16"></textarea>
+        <textarea id="line4" maxlength="16"></textarea>
+    </div>
+    <button onclick="setText()">Set</button>
+
+<script>
+const addPreventNewLine = (elem_id) => {
+    document.getElementById(elem_id).addEventListener("input", () => {
+        document.getElementById(elem_id).value = document.getElementById(elem_id).value.replace(/\n/g,'');
+    })
+}
+addPreventNewLine("line1");
+addPreventNewLine("line2");
+addPreventNewLine("line3");
+addPreventNewLine("line4");
+
+const setText = () => {
+    fetch("/", {
+        method: "POST",
+        body: document.getElementById("line1").value + "\n" +
+              document.getElementById("line2").value + "\n" +
+              document.getElementById("line3").value + "\n" +
+              document.getElementById("line4").value + "\n",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    });
+}
+</script>
+
+</body>
+</html>
