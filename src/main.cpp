@@ -41,10 +41,9 @@ void setText(String text) {
 void setup() {
     Serial.begin(115200);
     delay(500);
-    Network::setupWifi(setText);
-    display.begin();
     display.setFixedFont(ssd1306xled_font8x16);
-    setText("IP:\n" + Network::getIP());
+    display.begin();
+    Network::setupWifi(setText);
     delay(3000);
 }
 
@@ -56,4 +55,5 @@ void loop() {
         String new_text = Network::getUpdatedText();
         if (new_text.length() > 0) setText(new_text);
     }
+    delay(5000);
 }

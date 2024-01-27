@@ -43,6 +43,7 @@ def createNetworkConfig(cfg_source, cfg_header):
             ssid = config['ssid']
             password = config['password']
             ip = config['ip']
+            port = config['port']
             is_ap = config['ap']
             url = config['url']
         else:
@@ -57,6 +58,7 @@ def createNetworkConfig(cfg_source, cfg_header):
             f.write('namespace Network {\n');
             f.write('const char* _wifi_ssid = "' + ssid + '";\n')
             f.write('const char* _wifi_password = "' + password + '";\n')
+            f.write('const unsigned int _server_port = ' + str(port) + ';\n')
             f.write('const IPAddress _wifi_ip(' + ip.replace('.', ',') + ');\n')
             f.write('const IPAddress _wifi_gateway(' + gateway + ');\n')
             f.write('const String _text_url = "' + url + '";\n')

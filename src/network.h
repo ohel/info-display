@@ -5,7 +5,6 @@
 
 namespace Network {
     void setupWifi(void (*setText)(String));
-    String getIP();
     void handleClient();
     String getUpdatedText();
 }

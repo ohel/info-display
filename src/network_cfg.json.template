@@ -2,6 +2,7 @@
   "ssid": "wifi",
   "password": "wifipass",
   "ip": "0.0.0.0",
+  "port": 80,
   "ap": false,
   "url": "https://github.com/ohel/"
 }

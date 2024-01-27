@@ -9,17 +9,13 @@
 
 namespace Network {
     void (*_setText)(String);
-    ESP8266WebServer _server(80);
+    ESP8266WebServer _server(_server_port);
 
     HTTPClient _http_client;
     bool _update_override = false;
 
     void handleClient() {
         _server.handleClient();
-    }
-
-    String getIP() {
-        return WiFi.localIP().toString();
     }
 
     void setupWifi(void (*setText)(String)) {
@@ -49,6 +45,7 @@ namespace Network {
             Serial.print("    IP/Gateway: ");
             Serial.println(_wifi_ip);
             WiFi.softAPConfig(_wifi_ip, _wifi_ip, subnet);
+            _setText("----WiFi AP----\nSSID: " + String(_wifi_ssid) + "\nPwd: " + String(_wifi_password) + "\nGw: " + _wifi_ip.toString());
         } else {
             WiFi.mode(WIFI_STA);
             if (_wifi_ip.toString() == INADDR_NONE.toString()) {
@@ -64,6 +61,7 @@ namespace Network {
             int timeout = 0;
             Serial.print("Connecting to: ");
             Serial.println(_wifi_ssid);
+            _setText("Connecting to:\n" + String(_wifi_ssid));
             while (WiFi.status() != WL_CONNECTED && timeout < 20) {
                 delay(1000);
                 Serial.print(".");
@@ -77,6 +75,8 @@ namespace Network {
                 Serial.println("Failed to connect to WiFi.");
             }
         }
+
+        _setText("IP:\n" + WiFi.localIP().toString() + "\nHTTP PORT:\n" + String(_server_port));
 
         _server.on("/", HTTP_GET, [](){
             Serial.println("GET: /");
@@ -134,6 +134,7 @@ namespace Network {
             Serial.println(retval);
         } else {
             Serial.println("Error fetching text: " + String(responseCode) + " " + _http_client.errorToString(responseCode));
+            retval = "Not updated. IP:\n" + WiFi.localIP().toString() + "\nHTTP PORT:\n" + String(_server_port);
         }
         _http_client.end();
 
